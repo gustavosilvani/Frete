@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="Frete.Api/Frete.Api.csproj" />
+  <Project Path="Frete.Application/Frete.Application.csproj" />
+  <Project Path="Frete.Domain/Frete.Domain.csproj" />
+  <Project Path="Frete.Infrastructure/Frete.Infrastructure.csproj" />
+  <Project Path="Frete.Tests/Frete.Tests.csproj" />
+</Solution>
