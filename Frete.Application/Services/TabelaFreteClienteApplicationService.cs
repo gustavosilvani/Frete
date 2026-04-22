@@ -51,7 +51,8 @@ public sealed class TabelaFreteClienteApplicationService : ITabelaFreteClienteAp
             request.LocalidadeOrigemId,
             request.LocalidadeDestinoId,
             request.VigenciaInicio,
-            request.VigenciaFim);
+            request.VigenciaFim,
+            request.ValorMinimo);
 
         await _tabelaFreteClienteRepository.AdicionarAsync(entity, cancellationToken);
         return Mapear(entity, new Dictionary<Guid, TabelaFrete> { [tabela.Id] = tabela });
@@ -67,7 +68,8 @@ public sealed class TabelaFreteClienteApplicationService : ITabelaFreteClienteAp
             request.LocalidadeOrigemId,
             request.LocalidadeDestinoId,
             request.VigenciaInicio,
-            request.VigenciaFim);
+            request.VigenciaFim,
+            request.ValorMinimo);
 
         await _tabelaFreteClienteRepository.AtualizarAsync(entity, cancellationToken);
         return Mapear(entity, new Dictionary<Guid, TabelaFrete> { [tabela.Id] = tabela });
@@ -144,6 +146,7 @@ public sealed class TabelaFreteClienteApplicationService : ITabelaFreteClienteAp
             LocalidadeDestinoId = entity.LocalidadeDestinoId,
             VigenciaInicio = entity.VigenciaInicio,
             VigenciaFim = entity.VigenciaFim,
+            ValorMinimo = entity.ValorMinimo,
             Ativo = entity.Ativo,
             CreatedAtUtc = entity.CreatedAtUtc,
             UpdatedAtUtc = entity.UpdatedAtUtc

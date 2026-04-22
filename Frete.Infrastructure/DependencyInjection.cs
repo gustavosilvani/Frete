@@ -29,6 +29,7 @@ public static class DependencyInjection
         services.AddScoped<ITabelaFreteApplicationService, TabelaFreteApplicationService>();
         services.AddScoped<ITabelaFreteClienteApplicationService, TabelaFreteClienteApplicationService>();
         services.AddScoped<IFaixaFreteApplicationService, FaixaFreteApplicationService>();
+        services.AddScoped<ICalculoFreteApplicationService, CalculoFreteApplicationService>();
 
         return services;
     }

@@ -14,10 +14,11 @@ public sealed class TabelaFreteCliente : TenantEntity
         Guid localidadeOrigemId,
         Guid localidadeDestinoId,
         DateOnly vigenciaInicio,
-        DateOnly? vigenciaFim)
+        DateOnly? vigenciaFim,
+        decimal? valorMinimo = null)
         : base(embarcadorId)
     {
-        Atualizar(tabelaFreteId, localidadeOrigemId, localidadeDestinoId, vigenciaInicio, vigenciaFim);
+        Atualizar(tabelaFreteId, localidadeOrigemId, localidadeDestinoId, vigenciaInicio, vigenciaFim, valorMinimo);
     }
 
     public Guid TabelaFreteId { get; private set; }
@@ -30,31 +31,39 @@ public sealed class TabelaFreteCliente : TenantEntity
 
     public DateOnly? VigenciaFim { get; private set; }
 
+    public decimal? ValorMinimo { get; private set; }
+
     public void Atualizar(
         Guid tabelaFreteId,
         Guid localidadeOrigemId,
         Guid localidadeDestinoId,
         DateOnly vigenciaInicio,
-        DateOnly? vigenciaFim)
+        DateOnly? vigenciaFim,
+        decimal? valorMinimo = null)
     {
         if (tabelaFreteId == Guid.Empty)
         {
-            throw new ArgumentException("Tabela de frete é obrigatória.", nameof(tabelaFreteId));
+            throw new ArgumentException("Tabela de frete e obrigatoria.", nameof(tabelaFreteId));
         }
 
         if (localidadeOrigemId == Guid.Empty)
         {
-            throw new ArgumentException("Localidade de origem é obrigatória.", nameof(localidadeOrigemId));
+            throw new ArgumentException("Localidade de origem e obrigatoria.", nameof(localidadeOrigemId));
         }
 
         if (localidadeDestinoId == Guid.Empty)
         {
-            throw new ArgumentException("Localidade de destino é obrigatória.", nameof(localidadeDestinoId));
+            throw new ArgumentException("Localidade de destino e obrigatoria.", nameof(localidadeDestinoId));
         }
 
         if (vigenciaFim.HasValue && vigenciaFim.Value < vigenciaInicio)
         {
-            throw new ArgumentException("Vigência final deve ser maior ou igual à vigência inicial.", nameof(vigenciaFim));
+            throw new ArgumentException("Vigencia final deve ser maior ou igual a vigencia inicial.", nameof(vigenciaFim));
+        }
+
+        if (valorMinimo.HasValue && valorMinimo.Value < 0)
+        {
+            throw new ArgumentException("Valor minimo nao pode ser negativo.", nameof(valorMinimo));
         }
 
         TabelaFreteId = tabelaFreteId;
@@ -62,6 +71,7 @@ public sealed class TabelaFreteCliente : TenantEntity
         LocalidadeDestinoId = localidadeDestinoId;
         VigenciaInicio = vigenciaInicio;
         VigenciaFim = vigenciaFim;
+        ValorMinimo = valorMinimo;
         Touch();
     }
 }

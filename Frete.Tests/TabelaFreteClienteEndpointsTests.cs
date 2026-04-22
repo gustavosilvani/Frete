@@ -28,7 +28,8 @@ public sealed class TabelaFreteClienteEndpointsTests : IClassFixture<FreteApiFac
             LocalidadeOrigemId = Guid.NewGuid(),
             LocalidadeDestinoId = Guid.NewGuid(),
             VigenciaInicio = new DateOnly(2026, 4, 17),
-            VigenciaFim = new DateOnly(2026, 5, 17)
+            VigenciaFim = new DateOnly(2026, 5, 17),
+            ValorMinimo = 99.9m
         });
 
         Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
@@ -36,6 +37,7 @@ public sealed class TabelaFreteClienteEndpointsTests : IClassFixture<FreteApiFac
         Assert.NotNull(created);
         Assert.Equal(tabelaA.Id, created!.TabelaFreteId);
         Assert.Equal("A", created.TabelaFreteCodigo);
+        Assert.Equal(99.9m, created.ValorMinimo);
 
         await client.PostAsJsonAsync("/api/v1/tabelas-frete-cliente", new CriarTabelaFreteClienteRequest
         {
@@ -43,7 +45,8 @@ public sealed class TabelaFreteClienteEndpointsTests : IClassFixture<FreteApiFac
             LocalidadeOrigemId = Guid.NewGuid(),
             LocalidadeDestinoId = Guid.NewGuid(),
             VigenciaInicio = new DateOnly(2026, 4, 18),
-            VigenciaFim = null
+            VigenciaFim = null,
+            ValorMinimo = 150m
         });
 
         var filtered = await client.GetFromJsonAsync<List<TabelaFreteClienteResponse>>($"/api/v1/tabelas-frete-cliente?tabelaFreteId={tabelaA.Id}");
@@ -57,13 +60,15 @@ public sealed class TabelaFreteClienteEndpointsTests : IClassFixture<FreteApiFac
             LocalidadeOrigemId = created.LocalidadeOrigemId,
             LocalidadeDestinoId = created.LocalidadeDestinoId,
             VigenciaInicio = created.VigenciaInicio,
-            VigenciaFim = created.VigenciaFim
+            VigenciaFim = created.VigenciaFim,
+            ValorMinimo = 123.45m
         });
 
         Assert.Equal(HttpStatusCode.OK, updateResponse.StatusCode);
         var updated = await updateResponse.Content.ReadFromJsonAsync<TabelaFreteClienteResponse>();
         Assert.NotNull(updated);
         Assert.Equal(tabelaB.Id, updated!.TabelaFreteId);
+        Assert.Equal(123.45m, updated.ValorMinimo);
 
         var deactivateResponse = await client.PatchAsync($"/api/v1/tabelas-frete-cliente/{created.Id}/desativar", JsonContent.Create(new { }));
         Assert.Equal(HttpStatusCode.OK, deactivateResponse.StatusCode);
@@ -115,7 +120,8 @@ public sealed class TabelaFreteClienteEndpointsTests : IClassFixture<FreteApiFac
             LocalidadeOrigemId = Guid.NewGuid(),
             LocalidadeDestinoId = Guid.NewGuid(),
             VigenciaInicio = new DateOnly(2026, 4, 17),
-            VigenciaFim = null
+            VigenciaFim = null,
+            ValorMinimo = 75m
         });
 
         await clientB.PostAsJsonAsync("/api/v1/tabelas-frete-cliente", new CriarTabelaFreteClienteRequest
@@ -124,7 +130,8 @@ public sealed class TabelaFreteClienteEndpointsTests : IClassFixture<FreteApiFac
             LocalidadeOrigemId = Guid.NewGuid(),
             LocalidadeDestinoId = Guid.NewGuid(),
             VigenciaInicio = new DateOnly(2026, 4, 17),
-            VigenciaFim = null
+            VigenciaFim = null,
+            ValorMinimo = 120m
         });
 
         var listA = await clientA.GetFromJsonAsync<List<TabelaFreteClienteResponse>>("/api/v1/tabelas-frete-cliente");
@@ -134,6 +141,8 @@ public sealed class TabelaFreteClienteEndpointsTests : IClassFixture<FreteApiFac
         Assert.Single(listB!);
         Assert.Equal(tabelaA.Id, listA![0].TabelaFreteId);
         Assert.Equal(tabelaB.Id, listB![0].TabelaFreteId);
+        Assert.Equal(75m, listA[0].ValorMinimo);
+        Assert.Equal(120m, listB[0].ValorMinimo);
     }
 
     private static async Task<TabelaFreteResponse> CriarTabelaFreteAsync(HttpClient client, string codigo)

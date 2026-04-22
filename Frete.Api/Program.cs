@@ -1,5 +1,4 @@
 using System.Text;
-using Frete.Application.Common;
 using Frete.Infrastructure;
 using Frete.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -17,7 +16,7 @@ builder.Services.AddSwaggerGen(options =>
     {
         Title = "Frete API",
         Version = "v1",
-        Description = "Serviço especializado para cadastros e, futuramente, cálculo de frete."
+        Description = "Servico especializado para cadastros e calculo operacional de frete."
     });
 
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -116,7 +115,7 @@ app.MapGet("/", () => Results.Ok(new
     service = "Frete.Api",
     status = "ok",
     version = "v1",
-    capabilities = new[] { "cadastros", "future-calculo" }
+    capabilities = new[] { "cadastros", "calculo" }
 }));
 
 app.MapControllers();

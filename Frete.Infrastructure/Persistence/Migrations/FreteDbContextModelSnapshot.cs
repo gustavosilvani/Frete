@@ -85,6 +85,10 @@ namespace Frete.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("UpdatedAtUtc")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<decimal?>("ValorMinimo")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
+
                     b.Property<DateOnly?>("VigenciaFim")
                         .HasColumnType("date");
 

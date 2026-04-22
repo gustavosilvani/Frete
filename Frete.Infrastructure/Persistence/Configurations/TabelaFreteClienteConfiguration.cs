@@ -18,6 +18,7 @@ public sealed class TabelaFreteClienteConfiguration : IEntityTypeConfiguration<T
         builder.Property(item => item.LocalidadeDestinoId).IsRequired();
         builder.Property(item => item.VigenciaInicio).HasColumnType("date").IsRequired();
         builder.Property(item => item.VigenciaFim).HasColumnType("date");
+        builder.Property(item => item.ValorMinimo).HasPrecision(18, 2);
         builder.Property(item => item.Ativo).IsRequired();
         builder.Property(item => item.CreatedAtUtc).HasColumnType("timestamp with time zone");
         builder.Property(item => item.UpdatedAtUtc).HasColumnType("timestamp with time zone");

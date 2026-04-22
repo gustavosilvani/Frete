@@ -11,6 +11,8 @@ public sealed class CriarTabelaFreteClienteRequest
     public DateOnly VigenciaInicio { get; set; }
 
     public DateOnly? VigenciaFim { get; set; }
+
+    public decimal? ValorMinimo { get; set; }
 }
 
 public sealed class AtualizarTabelaFreteClienteRequest
@@ -24,6 +26,8 @@ public sealed class AtualizarTabelaFreteClienteRequest
     public DateOnly VigenciaInicio { get; set; }
 
     public DateOnly? VigenciaFim { get; set; }
+
+    public decimal? ValorMinimo { get; set; }
 }
 
 public sealed class TabelaFreteClienteResponse
@@ -45,6 +49,8 @@ public sealed class TabelaFreteClienteResponse
     public DateOnly VigenciaInicio { get; set; }
 
     public DateOnly? VigenciaFim { get; set; }
+
+    public decimal? ValorMinimo { get; set; }
 
     public bool Ativo { get; set; }
 

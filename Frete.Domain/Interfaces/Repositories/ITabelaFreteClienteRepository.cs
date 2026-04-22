@@ -8,6 +8,13 @@ public interface ITabelaFreteClienteRepository
 
     Task<TabelaFreteCliente?> ObterPorIdAsync(Guid embarcadorId, Guid id, CancellationToken cancellationToken = default);
 
+    Task<TabelaFreteCliente?> ObterAplicavelAsync(
+        Guid embarcadorId,
+        Guid localidadeOrigemId,
+        Guid localidadeDestinoId,
+        DateOnly dataReferencia,
+        CancellationToken cancellationToken = default);
+
     Task AdicionarAsync(TabelaFreteCliente entity, CancellationToken cancellationToken = default);
 
     Task AtualizarAsync(TabelaFreteCliente entity, CancellationToken cancellationToken = default);

@@ -38,6 +38,27 @@ public sealed class EfTabelaFreteClienteRepository : ITabelaFreteClienteReposito
             .FirstOrDefaultAsync(item => item.EmbarcadorId == embarcadorId && item.Id == id, cancellationToken);
     }
 
+    public Task<TabelaFreteCliente?> ObterAplicavelAsync(
+        Guid embarcadorId,
+        Guid localidadeOrigemId,
+        Guid localidadeDestinoId,
+        DateOnly dataReferencia,
+        CancellationToken cancellationToken = default)
+    {
+        return _dbContext.TabelasFreteCliente
+            .AsNoTracking()
+            .Where(item =>
+                item.EmbarcadorId == embarcadorId &&
+                item.Ativo &&
+                item.LocalidadeOrigemId == localidadeOrigemId &&
+                item.LocalidadeDestinoId == localidadeDestinoId &&
+                item.VigenciaInicio <= dataReferencia &&
+                (!item.VigenciaFim.HasValue || item.VigenciaFim.Value >= dataReferencia))
+            .OrderByDescending(item => item.VigenciaInicio)
+            .ThenByDescending(item => item.UpdatedAtUtc)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
     public async Task AdicionarAsync(TabelaFreteCliente entity, CancellationToken cancellationToken = default)
     {
         await _dbContext.TabelasFreteCliente.AddAsync(entity, cancellationToken);
